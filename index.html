@@ -5,79 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Most Beautiful Angel</title>
     <style>
-        body {
-            background-color: #ffe6e6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-        }
+        body { background-color: #ffe6e6; margin: 0; font-family: 'Arial', sans-serif; overflow-x: hidden; }
+        #main-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
         h1 { color: #d63384; text-align: center; }
-        .buttons { position: relative; width: 300px; height: 100px; margin-top: 20px; }
-        button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-        }
-        #yesBtn { background-color: #ff4d6d; color: white; left: 0; }
-        #noBtn { background-color: #adb5bd; color: white; right: 0; transition: 0.2s; }
         
-        /* Falling Hearts Animation */
-        .heart {
-            position: fixed;
-            top: -10%;
-            color: #ff4d6d;
-            font-size: 20px;
-            user-select: none;
-            z-index: -1;
-            animation: fall linear forwards;
+        /* Button Styles */
+        .buttons { position: relative; width: 300px; height: 100px; margin-top: 20px; }
+        button { padding: 15px 30px; font-size: 1.2rem; border-radius: 10px; border: none; cursor: pointer; position: absolute; }
+        #yesBtn { background-color: #ff4d6d; color: white; left: 50px; }
+        #noBtn { background-color: #adb5bd; color: white; right: 50px; width: 100px; height: 50px; z-index: 999; }
+
+        /* The Celebration Scrapbook */
+        #celebration { display: none; padding: 20px; text-align: center; }
+        .photo-wall { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+            gap: 15px; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        @keyframes fall {
-            to { transform: translateY(110vh); }
+        .photo-wall img { 
+            width: 100%; 
+            height: 150px; 
+            object-fit: cover; 
+            border: 5px solid white; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
         }
+        /* Make them jumbled */
+        .photo-wall img:nth-child(odd) { transform: rotate(-3deg); }
+        .photo-wall img:nth-child(even) { transform: rotate(3deg); }
+        .photo-wall img:hover { transform: scale(1.1) rotate(0deg); z-index: 10; }
+
+        /* Central Main Photo */
+        .main-img-container { grid-column: 1 / -1; margin-bottom: 20px; }
+        .main-img { 
+            width: 90%; max-width: 500px; height: auto !important; 
+            border: 8px solid white !important; transform: rotate(0deg) !important;
+        }
+
+        /* Hearts */
+        .heart { position: fixed; top: -10%; color: #ff4d6d; font-size: 20px; z-index: -1; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh); } }
     </style>
 </head>
 <body>
+
     <div id="main-content">
-    <h1>Will you be my Valentine? ❤️</h1>
-    <div class="buttons">
-        <button id="yesBtn" onclick="showCelebration()">Yes</button>
-        <button id="noBtn">No</button>
+        <h1>Will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="showCelebration()">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
     </div>
-    </div>
-    
-    <div id="celebration" style="display:none; text-align:center;">
+
+    <div id="celebration">
         <h1>I knew you'd say yes! ❤️</h1>
-        <img src="us.jpg" alt="Our Photo" style="width: 80%; max-width: 500px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-        <p style="font-size: 1.5rem; color: #d63384; margin-top: 20px;">I can't wait to see you on the 14th!</p>
+        <div class="photo-wall" id="photoGrid">
+            <div class="main-img-container">
+                <img src="us.jpg" class="main-img">
+            </div>
+            </div>
     </div>
 
     <script>
         const noBtn = document.getElementById('noBtn');
 
+        // Escaping No Button
         noBtn.addEventListener('mouseover', () => {
-            // Calculate the max available width and height
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20; 
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-        
-            // Ensure the coordinates stay within the visible screen
-            const x = Math.floor(Math.random() * maxX);
-            const y = Math.floor(Math.random() * maxY);
-        
-            // Set new position
-            noBtn.style.position = 'fixed'; // Ensures it can move anywhere on screen
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 70);
+            noBtn.style.position = 'fixed';
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         });
-        
-        // The "Falling Hearts" Generator (Keep this part the same)
+
+        function showCelebration() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+            
+            const grid = document.getElementById('photoGrid');
+            // Programmatically add the 15 photos
+            for (let i = 1; i <= 15; i++) {
+                const img = document.createElement('img');
+                img.src = `${i}.jpg`;
+                grid.appendChild(img);
+            }
+            setInterval(createHeart, 100);
+        }
+
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -88,17 +105,6 @@
             setTimeout(() => heart.remove(), 5000);
         }
         setInterval(createHeart, 300);
-
-        function showCelebration() {
-            // Hide the question and buttons
-            document.getElementById('main-content').style.display = 'none';
-            
-            // Show the photo and message
-            document.getElementById('celebration').style.display = 'block';
-            
-            // Make hearts fall even faster for the celebration!
-            setInterval(createHeart, 100); 
-        }
     </script>
 </body>
 </html>
