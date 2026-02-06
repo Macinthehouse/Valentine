@@ -7,104 +7,118 @@
     <style>
         body { background-color: #ffe6e6; margin: 0; font-family: 'Arial', sans-serif; overflow-x: hidden; }
         #main-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        h1 { color: #d63384; text-align: center; }
+        h1 { color: #d63384; text-align: center; font-size: 2.5rem; margin-bottom: 30px; }
         
-        /* Button Styles */
-        .buttons { position: relative; width: 300px; height: 100px; margin-top: 20px; }
+        .buttons { position: relative; width: 300px; height: 100px; }
         button { padding: 15px 30px; font-size: 1.2rem; border-radius: 10px; border: none; cursor: pointer; position: absolute; }
         #yesBtn { background-color: #ff4d6d; color: white; left: 50px; }
         #noBtn { background-color: #adb5bd; color: white; right: 50px; width: 100px; height: 50px; z-index: 999; }
-
-        /* The Celebration Scrapbook */
-        #celebration { display: none; padding: 20px; text-align: center; }
-        .photo-wall { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-            gap: 15px; 
-            padding: 20px;
+    
+        /* The New Improved Celebration Layout */
+        #celebration { display: none; padding: 40px 20px; text-align: center; }
+        
+        .main-photo-container { margin-bottom: 50px; }
+        .main-photo { 
+            width: 90%; max-width: 600px; 
+            border: 15px solid white; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            border-radius: 5px;
+        }
+    
+        /* Flexbox Grid for the 15 Photos */
+        .photo-flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        .photo-wall img { 
-            width: 100%; 
-            height: 150px; 
-            object-fit: cover; 
-            border: 5px solid white; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+    
+        .polaroid {
+            background: white;
+            padding: 15px 15px 40px 15px; /* Extra padding at bottom for that Polaroid look */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            width: 280px; /* Larger photos */
         }
-        /* Make them jumbled */
-        .photo-wall img:nth-child(odd) { transform: rotate(-3deg); }
-        .photo-wall img:nth-child(even) { transform: rotate(3deg); }
-        .photo-wall img:hover { transform: scale(1.1) rotate(0deg); z-index: 10; }
-
-        /* Central Main Photo */
-        .main-img-container { grid-column: 1 / -1; margin-bottom: 20px; }
-        .main-img { 
-            width: 90%; max-width: 500px; height: auto !important; 
-            border: 8px solid white !important; transform: rotate(0deg) !important;
+    
+        .polaroid img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
         }
-
-        /* Hearts */
-        .heart { position: fixed; top: -10%; color: #ff4d6d; font-size: 20px; z-index: -1; animation: fall linear forwards; }
+    
+        /* Creative "Tilted" Look */
+        .polaroid:nth-child(odd) { transform: rotate(-2deg); }
+        .polaroid:nth-child(even) { transform: rotate(2deg); }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 10; }
+    
+        .heart { position: fixed; top: -10%; color: #ff4d6d; font-size: 25px; z-index: -1; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh); } }
     </style>
-</head>
-<body>
 
-    <div id="main-content">
-        <h1>Will you be my Valentine? ❤️</h1>
-        <div class="buttons">
-            <button id="yesBtn" onclick="showCelebration()">Yes</button>
-            <button id="noBtn">No</button>
+    <body>
+        <div id="main-content">
+            <h1>Will you be my Valentine? ❤️</h1>
+            <div class="buttons">
+                <button id="yesBtn" onclick="showCelebration()">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
         </div>
-    </div>
-
-    <div id="celebration">
-        <h1>I knew you'd say yes! ❤️</h1>
-        <div class="photo-wall" id="photoGrid">
-            <div class="main-img-container">
-                <img src="us.jpg" class="main-img">
-            </div>
-            </div>
-    </div>
-
-    <script>
-        const noBtn = document.getElementById('noBtn');
-
-        // Escaping No Button
-        noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - 120);
-            const y = Math.random() * (window.innerHeight - 70);
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-        });
-
-        function showCelebration() {
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('celebration').style.display = 'block';
+    
+        <div id="celebration">
+            <h1>I knew you'd say yes! ❤️</h1>
             
-            const grid = document.getElementById('photoGrid');
-            // Programmatically add the 15 photos
-            for (let i = 1; i <= 15; i++) {
-                const img = document.createElement('img');
-                img.src = `${i}.jpg`;
-                grid.appendChild(img);
+            <div class="main-photo-container">
+                <img src="us.jpg" class="main-photo">
+            </div>
+    
+            <div class="photo-flex-container" id="photoGrid">
+                </div>
+            
+            <h2 style="color: #d63384; margin-top: 50px; font-size: 2rem;">I love you! ❤️</h2>
+        </div>
+    
+        <script>
+            const noBtn = document.getElementById('noBtn');
+    
+            noBtn.addEventListener('mouseover', () => {
+                const x = Math.random() * (window.innerWidth - 120);
+                const y = Math.random() * (window.innerHeight - 70);
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${x}px`;
+                noBtn.style.top = `${y}px`;
+            });
+    
+            function showCelebration() {
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('celebration').style.display = 'block';
+                
+                const grid = document.getElementById('photoGrid');
+                for (let i = 1; i <= 15; i++) {
+                    const container = document.createElement('div');
+                    container.classList.add('polaroid');
+                    
+                    const img = document.createElement('img');
+                    img.src = `${i}.jpg`;
+                    
+                    container.appendChild(img);
+                    grid.appendChild(container);
+                }
+                setInterval(createHeart, 80); // Even more hearts!
             }
-            setInterval(createHeart, 100);
-        }
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }
-        setInterval(createHeart, 300);
-    </script>
-</body>
+    
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }
+            setInterval(createHeart, 300);
+        </script>
+    </body>
 </html>
