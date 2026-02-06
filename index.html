@@ -16,6 +16,16 @@
     
         /* The New Improved Celebration Layout */
         #celebration { display: none; padding: 40px 20px; text-align: center; }
+
+        /* Animation for the birds to "float" slightly */
+        #bird-container {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
         
         .main-photo-container { margin-bottom: 50px; }
         .main-photo { 
@@ -48,7 +58,7 @@
             height: 300px;
             object-fit: cover;
         }
-    
+            
         /* Creative "Tilted" Look */
         .polaroid:nth-child(odd) { transform: rotate(-2deg); }
         .polaroid:nth-child(even) { transform: rotate(2deg); }
@@ -78,6 +88,14 @@
                 </div>
             
             <h2 style="color: #d63384; margin-top: 50px; font-size: 2rem;">I love you! ❤️</h2>
+        </div>
+
+        <div id="quote-section" style="margin-top: 100px; padding-bottom: 100px;">
+            <p style="font-size: 1.8rem; font-style: italic; color: #d63384; line-height: 1.6;">
+                "How much sorrow can I take?<br>
+                Blackbird on my shoulder"
+            </p>
+            <div id="bird-container" style="font-size: 2rem;">🕊️ 🐦‍⬛ 🕊️</div>
         </div>
     
         <script>
