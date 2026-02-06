@@ -88,6 +88,17 @@
             setTimeout(() => heart.remove(), 5000);
         }
         setInterval(createHeart, 300);
+
+        function showCelebration() {
+            // Hide the question and buttons
+            document.getElementById('main-content').style.display = 'none';
+            
+            // Show the photo and message
+            document.getElementById('celebration').style.display = 'block';
+            
+            // Make hearts fall even faster for the celebration!
+            setInterval(createHeart, 100); 
+        }
     </script>
 </body>
 </html>
